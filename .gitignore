@@ -1,0 +1,17 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Terraform plans
+*.tfplan
+
+# Variables
+*.tfvars
+
+# IDE
+.vscode/
+
+# Logs
+*.log
