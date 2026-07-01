@@ -1,0 +1,50 @@
+name: Terraform Deployment
+
+on:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  terraform:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Step 1
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # Step 2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+      with:
+        terraform_version: 1.9.5
+
+    # Step 3
+    - name: Verify Terraform Version
+      run: terraform version
+
+    # Step 4
+    - name: Terraform Init
+      run: terraform init
+
+    # Step 5
+    - name: Terraform Format Check
+      run: terraform fmt -check
+
+    # Step 6
+    - name: Terraform Validate
+      run: terraform validate
+
+    # Step 7
+    - name: Terraform Plan
+      run: terraform plan
