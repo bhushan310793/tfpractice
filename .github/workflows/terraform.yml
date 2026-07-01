@@ -16,35 +16,78 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
 
-    # Step 1
+    #################################################
+    # STEP 1 - Checkout Repository
+    #################################################
+
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # Step 2
+    #################################################
+    # STEP 2 - Setup Terraform
+    #################################################
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
       with:
         terraform_version: 1.9.5
 
-    # Step 3
+    #################################################
+    # STEP 3 - Configure AWS Credentials
+    #################################################
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    #################################################
+    # STEP 4 - Verify AWS Login (Optional)
+    #################################################
+
+    - name: Verify AWS Authentication
+      run: aws sts get-caller-identity
+
+    #################################################
+    # STEP 5 - Verify Terraform Version
+    #################################################
+
     - name: Verify Terraform Version
       run: terraform version
 
-    # Step 4
+    #################################################
+    # STEP 6 - Terraform Init
+    #################################################
+
     - name: Terraform Init
       run: terraform init
 
-    # # Step 5
-    # - name: Terraform Format Check
-    #   run: terraform fmt -check
+    #################################################
+    # STEP 7 - Terraform Format Check
+    #################################################
 
-    # Step 6
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    #################################################
+    # STEP 8 - Terraform Validate
+    #################################################
+
     - name: Terraform Validate
       run: terraform validate
 
-    # Step 7
+    #################################################
+    # STEP 9 - Terraform Plan
+    #################################################
+
     - name: Terraform Plan
       run: terraform plan
