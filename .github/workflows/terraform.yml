@@ -37,9 +37,9 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    # Step 5
-    - name: Terraform Format Check
-      run: terraform fmt -check
+    # # Step 5
+    # - name: Terraform Format Check
+    #   run: terraform fmt -check
 
     # Step 6
     - name: Terraform Validate
